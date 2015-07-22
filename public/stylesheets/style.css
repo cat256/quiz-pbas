@@ -19,6 +19,11 @@ section > div
 {
   padding: 20px;
 }
+section div ul
+{
+  text-align: justify;
+  list-style-type: none;
+}
 header, nav, section
 {
   background: #eee; text-align: center;
