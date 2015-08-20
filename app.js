@@ -42,6 +42,32 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(function(req, res, next) {
+  if (req.session.user) {
+    var now = new Date();
+    var hor = now.getHours();
+    var min = now.getMinutes();
+    var sec = now.getSeconds();
+    var hor_sec = hor*3600;
+    var min_sec = min*60;
+    var tot_sec = hor_sec + min_sec + sec;
+    if(!req.session.tot_sec){
+      req.session.tot_sec = tot_sec;
+    }
+    else{
+      if(tot_sec>=(req.session.tot_sec+120)){
+        delete req.session.user;
+        delete req.session.tot_sec;
+        res.redirect(req.session.redir.toString());
+      }
+      else{
+        req.session.tot_sec = tot_sec;
+      }
+    }
+  }
+  next();
+});
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
